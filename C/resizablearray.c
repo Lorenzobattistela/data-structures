@@ -10,17 +10,16 @@ size_t capacity = 4;
 int sizeOfArray();
 int capacityOfArray();
 void initializeEmptyArray(int *arr);
-void appendInTheEnd(int *arr, int value, int **array);
+void appendInTheEnd(int **arr, int value);
 bool isEmpty(int *arr);
 int FindItemInIndex(int *arr, int index);
 void insertAtIndex(int *arr, int index, int value);
 bool checkBoundaries(int index);
 int pop(int *arr);
-void deleteAtIndex(int *arr, int index);
-int removeItemMaintainingIndex(int *arr, int value);
+void deleteAtIndex(int *arr, int index);             // need refactor
+int removeItemMaintainingIndex(int *arr, int value); // need refactor
 int findElementByValue(int *arr, int value);
 void resizeArray(int **arr, size_t capacity);
-void append(int *arr, int value);
 
 int main(void)
 {
@@ -31,27 +30,57 @@ int main(void)
     arr[3] = 4;
     size = 4;
 
-    appendInTheEnd(arr, 5, &arr);
+    if (sizeOfArray() != 4)
+    {
+        printf("Size does not match");
+        return -1;
+    }
+    if (capacityOfArray() != 4)
+    {
+        printf("Capacity does not match");
+        return -1;
+    }
+    if (isEmpty(arr) != false)
+    {
+        printf("Array is not empty");
+        return -1;
+    }
+    if (FindItemInIndex(arr, 0) != 1)
+    {
+        printf("Item at index 0 is not being found correctly");
+        return -1;
+    }
+    if (checkBoundaries(0) != true)
+    {
+        printf("Checking boundaries failed");
+        return -1;
+    }
     for (int i = 0; i < capacity; i++)
     {
         printf("%d ", arr[i]);
     }
-}
-
-void appendInTheEnd(int *arr, int value, int **array)
-{
-    if (size == capacity)
+    int popped = pop(arr);
+    if (popped != 4)
     {
-        resizeArray(array, capacity);
-        capacity *= 2;
-        append(arr, value);
+        printf("Popped value is not correct");
+        return -1;
+    }
+
+    if (findElementByValue(arr, 1) != 0)
+    {
+        printf("Element find failed");
+        return -1;
     }
 }
 
-void append(int *arr, int value)
+void appendInTheEnd(int **arr, int value)
 {
-    arr[size] = value;
-    size++;
+    if (size == capacity)
+    {
+        resizeArray(arr, capacity);
+        capacity *= 2;
+    }
+    (*arr)[size++] = value;
 }
 
 void resizeArray(int **arr, size_t capacity)
@@ -62,7 +91,7 @@ void resizeArray(int **arr, size_t capacity)
         newArr[i] = EMPTY;
     }
     memcpy(newArr, *arr, capacity * sizeof(int));
-    memset(newArr + capacity, EMPTY, capacity);
+    memset(newArr + capacity, EMPTY, capacity * sizeof(int));
     free(*arr);
     *arr = newArr;
 }
