@@ -35,22 +35,19 @@ int main(void)
         printf("Checking boundaries failed");
         return -1;
     }
-    for (int i = 0; i < capacity; i++)
-    {
-        printf("%d ", arr[i]);
-    }
-    int popped = pop(arr);
-    if (popped != 4)
-    {
-        printf("Popped value is not correct");
-        return -1;
-    }
 
     if (findElementByValue(arr, 1) != 0)
     {
         printf("Element find failed");
         return -1;
     }
+
+    deleteAtIndex(arr, 0);
+    for (int i = 0; i < capacity; i++)
+    {
+        printf("%d ", arr[i]);
+    }
+    printf("\n%i", size);
 }
 
 void appendInTheEnd(int **arr, int value)
@@ -89,12 +86,12 @@ int findElementByValue(int *arr, int value)
 
 int removeItemMaintainingIndex(int *arr, int value)
 {
-    for (int i = 0; i < capacity - 1; i++)
+    for (int i = 0; i < size; i++)
     {
         if (arr[i] == value)
         {
             arr[i] = EMPTY;
-            return arr[i];
+            size--;
         }
     }
 }
@@ -103,11 +100,14 @@ void deleteAtIndex(int *arr, int index)
 {
     if (checkBoundaries(index) == true)
     {
-        for (int i = index; i < capacity - 1; i++)
+        for (int i = index; i < capacity; i++)
         {
-            arr[i] = arr[i + 1];
+            if (i == index)
+            {
+                arr[i] = EMPTY;
+                size--;
+            }
         }
-        arr[capacity - 1] = EMPTY;
     }
 }
 
