@@ -3,6 +3,7 @@
 
 #include <stdio.h>
 #include <stdlib.h>
+#include <stdbool.h>
 ////////////////////////////////////////////////////////////////////////////////
 // DATA STRUCTURES
 /**
@@ -20,8 +21,10 @@ struct node
 ////////////////////////////////////////////////////////////////////////////////
 // FORWARD DECLARATIONS
 
+bool isEmpty();
 void create();
 void enque(int x);
 int deque();
 int peek();
 int size();
+void printQueue();
