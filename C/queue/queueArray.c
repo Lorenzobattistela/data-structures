@@ -1,55 +1,99 @@
-#include "queue.h"
-
-#define LENGTH 6
-
-int queue[6];
-
-int main(void)
+#include <stdio.h>
+#include <stdlib.h>
+#define maxsize 5
+void insert();
+void delete ();
+void display();
+int front = -1, rear = -1;
+int queue[maxsize];
+void main()
 {
-    create();
-    enque(1);
-    printQueue();
-}
-
-void create()
-{
-    for (int i = 0; i < LENGTH; i++)
+    int choice;
+    while (choice != 4)
     {
-        queue[i] = 0;
-    }
-}
-
-bool isEmpty()
-{
-    if (queue[LENGTH - 1] == 0)
-    {
-        printf("Queue is empty\n");
-        return true;
-    }
-    return false;
-}
-
-void enque(int x)
-{
-    if (isEmpty() == true)
-    {
-        queue[LENGTH - 1] = x;
-    }
-    for (int i = LENGTH - 1; i >= 0; i--)
-    {
-        if (queue[0] != 0)
+        printf("\n*************************Main Menu*****************************\n");
+        printf("\n=================================================================\n");
+        printf("\n1.insert an element\n2.Delete an element\n3.Display the queue\n4.Exit\n");
+        printf("\nEnter your choice ?");
+        scanf("%d", &choice);
+        switch (choice)
         {
-            printf("Queue is full\n");
+        case 1:
+            insert();
             break;
+        case 2:
+            delete ();
+            break;
+        case 3:
+            display();
+            break;
+        case 4:
+            exit(0);
+            break;
+        default:
+            printf("\nEnter valid choice??\n");
         }
-        queue[i - 1] = queue[i];
+    }
+}
+void insert()
+{
+    int item;
+    printf("\nEnter the element\n");
+    scanf("\n%d", &item);
+    if (rear == maxsize - 1)
+    {
+        printf("\nOVERFLOW\n");
+        return;
+    }
+    if (front == -1 && rear == -1)
+    {
+        front = 0;
+        rear = 0;
+    }
+    else
+    {
+        rear = rear + 1;
+    }
+    queue[rear] = item;
+    printf("\nValue inserted ");
+}
+void delete ()
+{
+    int item;
+    if (front == -1 || front > rear)
+    {
+        printf("\nUNDERFLOW\n");
+        return;
+    }
+    else
+    {
+        item = queue[front];
+        if (front == rear)
+        {
+            front = -1;
+            rear = -1;
+        }
+        else
+        {
+            front = front + 1;
+        }
+        printf("\nvalue deleted ");
     }
 }
 
-void printQueue()
+void display()
 {
-    for (int i = 0; i < LENGTH; i++)
+    int i;
+    if (rear == -1)
     {
-        printf("%d ", queue[i]);
+        printf("\nEmpty queue\n");
+    }
+    else
+    {
+        printf("\nprinting values .....\n");
+        for (i = front; i <= rear; i++)
+        {
+            printf("\n%d\n", queue[i]);
+        }
     }
 }

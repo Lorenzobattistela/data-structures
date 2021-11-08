@@ -23,8 +23,8 @@ struct node
 
 bool isEmpty();
 void create();
-void enque(int x);
 int deque();
 int peek();
 int size();
 void printQueue();
+void insert(int queue[], int max, int front, int rear, int item)
